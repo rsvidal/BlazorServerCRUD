@@ -1,0 +1,69 @@
+﻿@page "/filmdelete/{id:int}"
+@using Model
+@using Interfaces
+@inject IFilmService FilmService
+@inject NavigationManager NavigationManager
+
+<h1>Film Delete</h1>
+
+<p style="color:red;text-align=center">Are you want to delete this file?</p>
+
+<EditForm Model="@myFilm">
+
+    <table class="table">
+        <tr>
+            <td>Title:</td>
+            <td><input type="text" @bind="myFilm.Title" /></td>
+        </tr>
+        <tr>
+            <td>Director:</td>
+            <td><input type="text" @bind="myFilm.Director" /></td>
+        </tr>
+        <tr>
+            <td>Release Date:</td>
+            <td><input type="text" @bind="myFilm.ReleaseDate" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Delete" @onclick="DeleteFilm" />
+                <input type="submit" value="Cancel" @onclick="Cancel" />
+            </td>
+        </tr>
+
+    </table>
+
+</EditForm>
+
+@code {
+
+    // This variable has the value passing in the 'id' argument (passed in the url)
+    [Parameter]
+    public int id { get; set; }
+
+    // Require @using BlazorServerCRUD.Model
+    Film myFilm = new Film();
+
+    protected override async Task OnInitializedAsync()
+    {
+        myFilm = await FilmService.Get(id); 
+    }
+
+    protected void Cancel()
+    {
+        Console.WriteLine("Cancel event!");
+
+        // Navigate to 'filmList' page
+        NavigationManager.NavigateTo("/filmlist");
+    }
+
+    protected async Task DeleteFilm()
+    {
+        Console.WriteLine("DeleteFilm event!");
+
+        // Require @using Inferfaces and @inject IFilmService FilmService
+        await FilmService.Delete(myFilm);
+
+        // Navigate to 'filmList' page
+        NavigationManager.NavigateTo("/filmlist");
+    }
+}

@@ -1,0 +1,74 @@
+﻿@* Create film: http://localhost:80/filmdetails *@
+@* Edit film: http://localhost:80/filmdetails/1 *@
+
+@page "/filmdetails"            
+@page "/filmdetails/{id:int}"   
+@using BlazorServerCRUD.Model
+@using Interfaces
+@inject IFilmService FilmService
+@inject NavigationManager NavigationManager
+
+<h1>Film sDetails</h1>
+
+<EditForm Model="@myFilm">
+
+    <table class="table">
+        <tr>
+            <td>Title:</td>
+            <td><input type="text" @bind="myFilm.Title" /></td>
+        </tr>
+        <tr>
+            <td>Director:</td>
+            <td><input type="text" @bind="myFilm.Director" /></td>
+        </tr>
+        <tr>
+            <td>Release Date:</td>
+            <td><input type="text" @bind="myFilm.ReleaseDate" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Save" @onclick="SaveFilm" />
+                <input type="submit" value="Cancel" @onclick="Cancel" />
+            </td>
+        </tr>
+
+    </table>
+
+</EditForm>
+
+@code {
+
+    // This variable has the value passing in the 'id' argument (passed in the url)
+    [Parameter]
+    public int id { get; set; }
+
+    // Require @using BlazorServerCRUD.Model
+    Film myFilm = new Film();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(id == 0)
+            myFilm.ReleaseDate = DateTime.Now; // New film. In this case, current datetime is the value by default
+        else
+            myFilm = await FilmService.Get(id); // Edit film
+    }
+
+    protected void Cancel()
+    {
+        Console.WriteLine("Cancel event!");
+
+        // Navigate to 'filmList' page
+        NavigationManager.NavigateTo("/filmlist");
+    }
+
+    protected async Task SaveFilm()
+    {
+        Console.WriteLine("SaveFilm event!");
+
+        // Require @using Inferfaces and @inject IFilmService FilmService
+        await FilmService.Save(myFilm);
+
+        // Navigate to 'filmList' page
+        NavigationManager.NavigateTo("/filmlist");
+    }
+}
