@@ -1,12 +1,24 @@
 using BlazorServerCRUD.UI.Data;
 using BlazorServerCRUD.UI.Interfaces;
 using BlazorServerCRUD.UI.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using System.Configuration;
-using System.Data.SqlClient;
+using ElectronNET.API;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// RSV. Electron.NET -- BEGIN
+builder.Services.AddElectron();
+builder.WebHost.UseElectron(args);
+if (HybridSupport.IsElectronActive)
+{
+    // Open the Electron-Window here
+    Task.Run(async () => {
+        var window = await Electron.WindowManager.CreateWindowAsync();
+        window.OnClosed += () => {
+            Electron.App.Quit();
+        };
+    });
+}
+// RSV. Electron.NET -- END
 
 // Add services to the container.
 builder.Services.AddRazorPages();
