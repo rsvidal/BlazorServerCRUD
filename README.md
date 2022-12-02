@@ -33,3 +33,7 @@ Unlike .NET 5.0 and previous versions, .NET 6.0 and .NET 7.0 merged program.cs a
    > electronize start
 
 After inilizating ElectronNET.API, you can start the desktop application from Visual Studio 2022 as well, selecting Electron.NET app
+
+NOTE: electronize start /watch
+With this option, you can modify source code and the changes are displayed automatically (it's not necessary to restart the application)
+Reference: https://www.youtube.com/watch?v=At7CmMGNbwA&list=PLTVK2lirpnSjv-Ieoxj_F35ECC_J1L9ax&index=6
