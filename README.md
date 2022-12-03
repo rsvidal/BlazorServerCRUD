@@ -45,11 +45,11 @@ Add identity using Scaffolding
 
 1. Install CodeGeneartion.Design using nuget package manager
 
-   PM> Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design -Version 6.0.7 
+> PM> Install-Package Microsoft.VisualStudio.Web.CodeGeneration.Design -Version 6.0.7 
 
 2. Add identity using Scaffolding:
 
-   BlazorServerCRUD.UI --> Right button in mouse --> New Scaffolding Item --> Identity
+> BlazorServerCRUD.UI --> Right button in mouse --> New Scaffolding Item --> Identity
 
    In this option, create new BlazorServerCRUDContext.cs and AppUser.cs 
 
@@ -59,14 +59,14 @@ Add identity using Scaffolding
 
 4. Install EF to use Code First and Migrations using nuget package manager
 
-PM> Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -version 6.0.7
+> PM> Install-Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore -version 6.0.7
 
 5. Add first migration. This migration creates a class that it defines the User tables in the database
 
-PM> Add-Migration CreateIdentitySchema
+> PM> Add-Migration CreateIdentitySchema
 
 6. Execute pending migrations
 
-PM> Update-Database
+> PM> Update-Database
 
 Reference: https://learn.microsoft.com/es-es/aspnet/core/security/authentication/scaffold-identity?view=aspnetcore-6.0&tabs=visual-studio
