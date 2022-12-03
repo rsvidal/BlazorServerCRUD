@@ -2,6 +2,8 @@ using BlazorServerCRUD.UI.Data;
 using BlazorServerCRUD.UI.Interfaces;
 using BlazorServerCRUD.UI.Services;
 using ElectronNET.API;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +29,12 @@ builder.Services.AddScoped<IFilmService, FilmService>();
 
 // Add Database connection to the container as 'singleton' service
 var connectionString = builder.Configuration.GetConnectionString("SqlConnection"); // This connectionString is defined in the 'appsettings.json' file
+
+builder.Services.AddDbContext<BlazorServerCRUDContext>(options =>
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<BlazorServerCRUDContext>();
 var sqlConfiguration = new SqlConfiguration(connectionString);
 builder.Services.AddSingleton(sqlConfiguration);
 
@@ -48,5 +56,6 @@ app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+app.UseAuthentication();;
 
 app.Run();
